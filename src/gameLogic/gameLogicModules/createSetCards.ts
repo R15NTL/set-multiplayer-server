@@ -8,7 +8,7 @@ function makeNewSequentialCards(): Card[] {
   const shapes: Shape[] = ["oval", "diamond", "snake"];
   const shading: Shading[] = ["solid", "empty", "shaded"];
 
-  var arrId = 0;
+  let arrId = 0;
 
   for (const color of colors) {
     for (const quantity of quantities) {
@@ -31,16 +31,19 @@ function makeNewSequentialCards(): Card[] {
 function shuffleCards(cards: Card[]) {
   const shuffledCards = [...cards];
 
-  for (const i in shuffledCards) {
-    const currentCard = shuffledCards[i];
-    const randomCardArrId = Math.floor(Math.random() * 81);
+  for (let i = shuffledCards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
 
-    shuffledCards[i] = shuffledCards[randomCardArrId];
-    shuffledCards[randomCardArrId] = currentCard;
-
-    shuffledCards[i].arrId = parseInt(i);
-    shuffledCards[randomCardArrId].arrId = randomCardArrId;
+    const temp = shuffledCards[i];
+    shuffledCards[i] = shuffledCards[j];
+    shuffledCards[j] = temp;
   }
+
+  // Re-assign arrId attribute
+  shuffledCards.forEach((card, i) => {
+    card.arrId = i;
+  });
+
   return shuffledCards;
 }
 

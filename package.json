@@ -8,7 +8,7 @@
   "scripts": {
     "start": "nodemon",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "dependencies": {
     "express": "^4.18.2",

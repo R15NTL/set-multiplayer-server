@@ -8,13 +8,13 @@ import getHint from "./gameLogicModules/getHint";
 // Types
 import { Card } from "./types";
 
-interface CardPositions {
+export interface CardPositions {
   cardIdA: number;
   cardIdB: number;
   cardIdC: number;
 }
 
-interface CurrentGame {
+export interface CurrentGame {
   cardStack: Card[];
   usedCards: number;
   setTable: Card[];
@@ -22,9 +22,9 @@ interface CurrentGame {
 }
 
 class gameLogic {
-  private cardStack: Card[] | null;
+  private cardStack: Card[];
   private usedCards: number;
-  private setTable: Card[] | null;
+  private setTable: Card[];
   private endOfGame: boolean;
 
   constructor(currentGame: CurrentGame) {
@@ -34,19 +34,18 @@ class gameLogic {
       this.setTable = currentGame.setTable;
       this.endOfGame = currentGame.endOfGame;
     } else {
-      this.cardStack = null;
+      this.cardStack = createSetCards();
       this.usedCards = 0;
-      this.setTable = null;
+      this.setTable = [];
       this.endOfGame = false;
     }
   }
 
   startGame() {
-    this.cardStack = createSetCards();
     this.setTable = this.createNewTable();
     while (this.calculateSetsOnTable() == 0) {
       const newCards = this.getNewCards();
-      if (newCards === "endOfGame") return;
+      if (!newCards) return;
 
       this.setTable = this.setTable.concat(newCards);
     }
@@ -63,18 +62,14 @@ class gameLogic {
   }
 
   calculateSetsOnTable() {
-    if (!this.setTable) return 0;
     return calculateSetsOnTable(this.setTable);
   }
 
   getHint() {
-    if (!this.setTable) return [];
     return getHint(this.setTable);
   }
 
   findSet(cardPositions: CardPositions) {
-    if (!this.setTable) return false;
-
     if (
       !this.checkIfSet(
         cardPositions.cardIdA,
@@ -93,7 +88,7 @@ class gameLogic {
 
     while (this.calculateSetsOnTable() == 0) {
       const newCards = this.getNewCards();
-      if (newCards === "endOfGame") {
+      if (!newCards) {
         return true;
       }
       this.setTable = this.setTable.concat(newCards);
@@ -103,25 +98,28 @@ class gameLogic {
   }
 
   checkIfSet(cardId1: number, cardId2: number, cardId3: number) {
-    if (!this.setTable) return false;
-
-    if (checkIfSet(this.setTable, cardId1, cardId2, cardId3)) {
-      return true;
-    } else {
+    const maxCardId = this.setTable.length - 1;
+    if (
+      cardId1 > maxCardId ||
+      cardId2 > maxCardId ||
+      cardId3 > maxCardId ||
+      cardId1 < 0 ||
+      cardId2 < 0 ||
+      cardId3 < 0
+    ) {
       return false;
     }
+
+    return checkIfSet(this.setTable, cardId1, cardId2, cardId3);
   }
 
-  // These functions are called by the above functions.
-
+  // These functions for the purpose of the above functions.
   getNewCards() {
-    if (!this.cardStack) throw new Error("cardStack is null");
-
     let newCards = [];
 
     if (this.usedCards === 81) {
       this.endOfGame = true;
-      return "endOfGame";
+      return null;
     }
 
     while (newCards.length < 3) {
@@ -132,10 +130,8 @@ class gameLogic {
   }
 
   replaceFoundCardsWithNewCards(cardPositions: CardPositions) {
-    if (!this.setTable) throw new Error("setTable is null");
-
     const newCards = this.getNewCards();
-    if (newCards === "endOfGame") return;
+    if (!newCards) return;
 
     const newSetTable = this.setTable.slice();
 
@@ -153,8 +149,6 @@ class gameLogic {
       cardPositions.cardIdC,
     ];
 
-    if (!this.setTable) throw new Error("setTable is null");
-
     let newSetTable: WaitingTableCard[] = this.setTable.slice();
 
     for (const pos of cardPosArray) {
@@ -170,12 +164,10 @@ class gameLogic {
   }
 
   createNewTable() {
-    if (!this.cardStack) throw new Error("cardStack is null");
-
     const output: Card[] = [];
 
     for (var i = 0; i < 12; i++) {
-      output[i] = this.cardStack[this.usedCards++];
+      output[i] = this.cardStack[this.usedCards];
     }
     this.usedCards = 12;
     return output;

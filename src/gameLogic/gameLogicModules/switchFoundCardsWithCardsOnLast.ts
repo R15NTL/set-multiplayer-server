@@ -2,15 +2,16 @@ import { Card } from "../types";
 
 export type WaitingTableCard = "waiting" | Card;
 
-function cardsToSwitchWith(cardPosArray: number[], table: WaitingTableCard[]) {
-  let cardsOnLastRowToMove: Card[] = [];
+// Extract cards from last row, which are to be moved
+function cardsToSwitchWith(table: WaitingTableCard[]) {
+  const cardsOnLastRowToMove: Card[] = [];
   const setTable = table;
 
   for (let i = 1; i <= 3; i++) {
     const currentCard = setTable[setTable.length - i];
 
     if (currentCard !== "waiting") {
-      cardsOnLastRowToMove[cardsOnLastRowToMove.length] = currentCard;
+      cardsOnLastRowToMove.push(currentCard);
     }
   }
 
@@ -21,21 +22,23 @@ export default function switchFoundCardsWithCardsOnTheLastRow(
   cardPosArray: number[],
   table: WaitingTableCard[]
 ): Card[] {
-  const cardsOnLastRowToMove = cardsToSwitchWith(cardPosArray, table);
+  const cardsOnLastRowToMove = cardsToSwitchWith(table);
 
   const setTable = [...table];
 
-  for (let i = 0; i <= setTable.length - 4; i++) {
-    if (setTable[i] === "waiting") {
-      setTable[i] = cardsOnLastRowToMove[cardsOnLastRowToMove.length - 1];
+  // Iterate over the table except the last row
+  for (let position = 0; position < setTable.length - 3; position++) {
+    if (setTable[position] === "waiting") {
+      // Replace 'waiting' cards with last row's cards
+      setTable[position] =
+        cardsOnLastRowToMove[cardsOnLastRowToMove.length - 1];
 
-      cardsOnLastRowToMove.length--;
+      cardsOnLastRowToMove.pop();
     }
   }
 
-  setTable.length--;
-  setTable.length--;
-  setTable.length--;
+  // Remove last row (3 cards) from table
+  setTable.splice(-3, 3);
 
   return setTable as Card[];
 }
