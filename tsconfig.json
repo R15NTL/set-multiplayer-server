@@ -7,6 +7,6 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/gameLogic/gameLogicModules/calculateSetsOnTable.js"],
   "exclude": ["node_modules"],
 }
