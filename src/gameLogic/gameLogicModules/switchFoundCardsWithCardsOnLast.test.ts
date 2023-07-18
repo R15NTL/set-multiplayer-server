@@ -1,7 +1,7 @@
 import switchFoundCardsWithCardsOnTheLastRow, {
   WaitingTableCard,
 } from "./switchFoundCardsWithCardsOnLast";
-import { Card, Color, Shading, Shape, Quantity } from "../types";
+import { Card } from "../types";
 
 // Mock data
 const mockCard: Card = {

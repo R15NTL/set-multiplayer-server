@@ -65,4 +65,24 @@ describe("checkIfSet", () => {
 
     expect(checkIfSet(setTable, 0, 1, 2)).toBeFalsy();
   });
+
+  it("returns false when an index exceeds table length", () => {
+    const setTable: Card[] = [
+      { color: "red", quantity: 1, shape: "oval", shade: "solid", arrId: 0 },
+      { color: "red", quantity: 1, shape: "oval", shade: "solid", arrId: 1 },
+      { color: "red", quantity: 1, shape: "oval", shade: "solid", arrId: 2 },
+    ];
+
+    expect(checkIfSet(setTable, 0, 1, 3)).toBe(false);
+  });
+
+  it("returns false when an index is negative", () => {
+    const setTable: Card[] = [
+      { color: "red", quantity: 1, shape: "oval", shade: "solid", arrId: 0 },
+      { color: "red", quantity: 1, shape: "oval", shade: "solid", arrId: 1 },
+      { color: "red", quantity: 1, shape: "oval", shade: "solid", arrId: 2 },
+    ];
+
+    expect(checkIfSet(setTable, 0, 1, -1)).toBe(false);
+  });
 });

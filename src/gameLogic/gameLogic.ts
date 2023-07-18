@@ -27,7 +27,7 @@ class gameLogic {
   private setTable: Card[];
   private endOfGame: boolean;
 
-  constructor(currentGame: CurrentGame) {
+  constructor(currentGame?: CurrentGame) {
     if (currentGame) {
       this.cardStack = currentGame.cardStack;
       this.usedCards = currentGame.usedCards;
@@ -42,13 +42,7 @@ class gameLogic {
   }
 
   startGame() {
-    this.setTable = this.createNewTable();
-    while (this.calculateSetsOnTable() == 0) {
-      const newCards = this.getNewCards();
-      if (!newCards) return;
-
-      this.setTable = this.setTable.concat(newCards);
-    }
+    this.createNewTable();
   }
 
   saveGame() {
@@ -98,18 +92,6 @@ class gameLogic {
   }
 
   checkIfSet(cardId1: number, cardId2: number, cardId3: number) {
-    const maxCardId = this.setTable.length - 1;
-    if (
-      cardId1 > maxCardId ||
-      cardId2 > maxCardId ||
-      cardId3 > maxCardId ||
-      cardId1 < 0 ||
-      cardId2 < 0 ||
-      cardId3 < 0
-    ) {
-      return false;
-    }
-
     return checkIfSet(this.setTable, cardId1, cardId2, cardId3);
   }
 
@@ -123,7 +105,9 @@ class gameLogic {
     }
 
     while (newCards.length < 3) {
-      newCards[newCards.length] = this.cardStack[this.usedCards++];
+      newCards[newCards.length] = this.cardStack[this.usedCards];
+
+      this.usedCards++;
     }
 
     return newCards;
@@ -166,11 +150,18 @@ class gameLogic {
   createNewTable() {
     const output: Card[] = [];
 
-    for (var i = 0; i < 12; i++) {
+    for (let i = 0; i < 12; i++) {
       output[i] = this.cardStack[this.usedCards];
     }
     this.usedCards = 12;
-    return output;
+    this.setTable = output;
+
+    while (this.calculateSetsOnTable() === 0) {
+      const newCards = this.getNewCards();
+      if (!newCards) return;
+
+      this.setTable = this.setTable.concat(newCards);
+    }
   }
 }
 
