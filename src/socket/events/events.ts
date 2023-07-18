@@ -1,6 +1,7 @@
 import { handleSocketEventError } from "./errorHandler";
 import { IOContext } from "../../types/context";
 // Handlers
+import { disconnectHandler } from "./handlers/disconnect";
 import { requestGameDataHandler } from "./handlers/game";
 import { getRooms, createRoomHandler } from "./handlers/lobby";
 
@@ -31,5 +32,9 @@ export const events = (context: IOContext) => {
     }
   });
 
-  socket.on("disconnect", () => {});
+  socket.on("disconnect", () => {
+    try {
+      disconnectHandler(context);
+    } catch (error) {}
+  });
 };
