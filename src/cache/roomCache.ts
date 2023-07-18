@@ -21,13 +21,15 @@ export type JoinRequestPlayer = {
 type UserMapValue = Socket;
 type SocketMapValue = User;
 
+export interface RoomSettings {
+  remove_from_lobby_when_not_waiting_for_players: boolean;
+}
+
 export type Room = {
   room_id: string;
   room_name: string;
   room_players: Map<string, Player>;
-  settings: {
-    remove_from_lobby_when_not_waiting_for_players: boolean;
-  };
+  settings: RoomSettings;
   host: User;
   game_status: "waiting-for-players" | "in-game";
   game_state: GameSnapshot | null;

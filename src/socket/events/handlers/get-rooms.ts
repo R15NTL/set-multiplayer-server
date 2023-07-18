@@ -1,7 +1,8 @@
 import { Server, Socket } from "socket.io";
 import { RoomCache } from "../../../cache/roomCache";
+import { IOContext } from "../../../types/context";
 
-export const getRooms = (io: Server, socket: Socket, roomCache: RoomCache) => {
+export const getRooms = ({ roomCache, socket }: IOContext) => {
   const rooms = Array.from(roomCache.getAllRooms().values());
 
   const parsedRooms = rooms.map((room) => ({
