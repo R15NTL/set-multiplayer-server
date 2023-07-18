@@ -6,7 +6,7 @@ export const parseAllRooms = ({ roomCache }: Context): ReceiveRoomsItem[] => {
 
   const parsedRooms = rooms.map((room) => ({
     id: room.room_id,
-    name: room.room_id,
+    name: room.room_name,
     playerCount: room.room_players.size,
   }));
 

@@ -40,7 +40,7 @@ context.io.on("connection", (socket) => {
 
   socket.join("lobby");
 
-  events({ ...context, socket });
+  events({ io: context.io, roomCache: context.roomCache, socket });
 });
 
 const port = process.env.PORT || 8000;

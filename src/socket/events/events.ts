@@ -1,6 +1,8 @@
 import { handleSocketEventError } from "./errorHandler";
-import { getRooms } from "./handlers/lobby";
 import { IOContext } from "../../types/context";
+// Handlers
+import { requestGameDataHandler } from "./handlers/game";
+import { getRooms, createRoomHandler } from "./handlers/lobby";
 
 export const events = (context: IOContext) => {
   const { socket } = context;
@@ -9,12 +11,25 @@ export const events = (context: IOContext) => {
     try {
       getRooms(context);
     } catch (error) {
-      // console.log(error);
       handleSocketEventError(context, error);
     }
   });
 
-  socket.on("create-room", (params) => {});
+  socket.on("create-room", async (params) => {
+    try {
+      await createRoomHandler(context, params);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  socket.on("request-game-data", () => {
+    try {
+      requestGameDataHandler(context);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
 
   socket.on("disconnect", () => {});
 };
