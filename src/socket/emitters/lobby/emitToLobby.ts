@@ -7,5 +7,7 @@ export const updateLobbyRooms = (context: Context) => {
 
   const parsedRooms = parseAllRooms(context);
 
-  lobbyEmitters.receiveRooms(io.to("lobby").emit, parsedRooms);
+  lobbyEmitters.receiveRooms(parsedRooms, (...args) =>
+    io.to("lobby").emit(...args)
+  );
 };

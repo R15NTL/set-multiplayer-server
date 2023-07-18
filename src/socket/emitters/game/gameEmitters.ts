@@ -1,5 +1,4 @@
 import { Room, Player, JoinRequestPlayer } from "../../../cache/roomCache";
-import { IOContext } from "../../../types/context";
 import type { SocketEmitter } from "../types";
 
 export interface ReceiveRoom {
@@ -14,7 +13,7 @@ export interface ReceiveRoom {
 }
 
 export const gameEmitters = {
-  receiveRoom: (emitter: SocketEmitter, room: ReceiveRoom) => {
-    emitter("receive-room", room);
+  receiveRoom: (room: ReceiveRoom, cb: SocketEmitter) => {
+    cb("receive-room", room);
   },
 };

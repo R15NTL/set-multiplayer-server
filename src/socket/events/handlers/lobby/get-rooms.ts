@@ -7,5 +7,5 @@ export const getRooms = (context: IOContext) => {
 
   const parsedRooms = parseAllRooms(context);
 
-  lobbyEmitters.receiveRooms(socket.emit, parsedRooms);
+  lobbyEmitters.receiveRooms(parsedRooms, (...args) => socket.emit(...args));
 };

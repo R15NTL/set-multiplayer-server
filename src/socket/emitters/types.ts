@@ -1,3 +1,3 @@
 import { Socket } from "socket.io";
 
-export type SocketEmitter = Socket["emit"];
+export type SocketEmitter = (event: string, ...args: any[]) => void;

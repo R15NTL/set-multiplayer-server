@@ -7,6 +7,7 @@ export interface ReceiveRoomsItem {
 }
 
 export const lobbyEmitters = {
-  receiveRooms: (emitter: SocketEmitter, data: ReceiveRoomsItem[]) =>
-    emitter("receive-rooms", data),
+  receiveRooms: (data: ReceiveRoomsItem[], cb: SocketEmitter) => {
+    cb("receive-rooms", data);
+  },
 };

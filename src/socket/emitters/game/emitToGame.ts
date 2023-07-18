@@ -11,5 +11,7 @@ export const updateGameRoom = (context: IOContext, roomId: string) => {
 
   const parsedRoom = parseRoom(context, roomId);
 
-  gameEmitters.receiveRoom(io.to(roomId).emit, parsedRoom);
+  gameEmitters.receiveRoom(parsedRoom, (...args) =>
+    io.to(roomId).emit(...args)
+  );
 };
