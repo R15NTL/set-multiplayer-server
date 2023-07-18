@@ -14,7 +14,7 @@ export interface CardPositions {
   cardIdC: number;
 }
 
-export interface CurrentGame {
+export interface GameSnapshot {
   cardStack: Card[];
   usedCards: number;
   setTable: Card[];
@@ -27,7 +27,7 @@ class gameLogic {
   private setTable: Card[];
   private endOfGame: boolean;
 
-  constructor(currentGame?: CurrentGame) {
+  constructor(currentGame?: GameSnapshot) {
     if (currentGame) {
       this.cardStack = currentGame.cardStack;
       this.usedCards = currentGame.usedCards;

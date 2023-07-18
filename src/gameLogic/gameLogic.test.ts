@@ -1,9 +1,9 @@
-import gameLogic, { CardPositions, CurrentGame } from "./gameLogic";
+import gameLogic, { GameSnapshot } from "./gameLogic";
 import createSetCards from "./gameLogicModules/createSetCards";
 import { Card } from "./types";
 
 describe("gameLogic", () => {
-  let currentGame: CurrentGame;
+  let currentGame: GameSnapshot;
 
   const mockCard: Card = {
     color: "red",
