@@ -1,6 +1,5 @@
-import { Server, Socket } from "socket.io";
-import { RoomCache } from "../../cache/roomCache";
-import { getRooms } from "./handlers";
+import { handleSocketEventError } from "./errorHandler";
+import { getRooms } from "./handlers/lobby";
 import { IOContext } from "../../types/context";
 
 export const events = (context: IOContext) => {
@@ -10,7 +9,7 @@ export const events = (context: IOContext) => {
     try {
       getRooms(context);
     } catch (error) {
-      // TODO: Handle error
+      handleSocketEventError(context, error);
     }
   });
 

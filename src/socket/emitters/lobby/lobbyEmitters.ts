@@ -1,6 +1,4 @@
-import { Socket } from "socket.io";
-
-type SocketEmitter = Socket["emit"];
+import type { SocketEmitter } from "../types";
 
 export interface ReceiveRoomsItem {
   id: string;

@@ -1,7 +1,7 @@
 import { Context } from "../../types/context";
 import { ReceiveRoomsItem } from "../../socket/emitters/lobby/lobbyEmitters";
 
-export const getAllRooms = ({ roomCache }: Context): ReceiveRoomsItem[] => {
+export const parseAllRooms = ({ roomCache }: Context): ReceiveRoomsItem[] => {
   const rooms = Array.from(roomCache.getAllRooms().values());
 
   const parsedRooms = rooms.map((room) => ({
