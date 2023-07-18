@@ -1,15 +1,11 @@
-import { Server, Socket } from "socket.io";
-import { RoomCache } from "../../../cache/roomCache";
 import { IOContext } from "../../../types/context";
+import { getAllRooms } from "../../../features/sendRooms/sendRooms";
+import { lobbyEmitters } from "../../emitters/lobby/lobbyEmitters";
 
-export const getRooms = ({ roomCache, socket }: IOContext) => {
-  const rooms = Array.from(roomCache.getAllRooms().values());
+export const getRooms = (context: IOContext) => {
+  const { socket } = context;
 
-  const parsedRooms = rooms.map((room) => ({
-    id: room.room_id,
-    name: room.room_id,
-    playerCount: room.room_players.size,
-  }));
+  const parsedRooms = getAllRooms(context);
 
-  socket.emit("receive-rooms", parsedRooms);
+  lobbyEmitters.receiveRooms(socket.emit, parsedRooms);
 };

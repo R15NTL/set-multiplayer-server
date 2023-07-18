@@ -22,7 +22,7 @@ const schema = yup.object().shape({
 });
 
 export const getRooms = async (
-  { roomCache, socket }: IOContext,
+  { roomCache, socket, io }: IOContext,
   params: GetRoomsParams
 ) => {
   await schema.validate(params);
@@ -41,5 +41,5 @@ export const getRooms = async (
   });
 
   socket.join(roomId);
-  socket.emit("room-created", { roomId });
+  io.to(roomId).emit("room-created", { roomId });
 };
