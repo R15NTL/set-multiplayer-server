@@ -418,6 +418,39 @@ describe("RoomCache", () => {
     ).toBeUndefined();
   });
 
+  test("removeJoinRequest should remove user from join requests", () => {
+    const roomId = roomCache.createRoom({
+      user: testUser,
+      socket: testSocket,
+      roomName: "Test Room",
+      settings: testSettings,
+    });
+    // Add second user to join requests
+    roomCache.addToJoinRequests({
+      roomId,
+      user: secondUser,
+      socket: mockSocket("secondSocketId"),
+    });
+
+    // Expect second user to be in join requests
+    expect(
+      roomCache.getRoomJoinRequests(roomId)?.get(secondUser.user_id)?.user
+    ).toEqual(secondUser);
+
+    // Remove second user from join requests
+    roomCache.removeUserJoinRequest(roomId, secondUser.user_id);
+
+    // Expect second user to be removed from join requests
+    expect(
+      roomCache.getRoomJoinRequests(roomId)?.get(secondUser.user_id)
+    ).toBeUndefined();
+
+    // Expect second user not to be in cache
+    expect(roomCache.getUserBySocketId("secondSocketId")).toBeNull();
+    expect(roomCache.getUserToSocket(secondUser.user_id)).toBeNull();
+    expect(roomCache.isUserInRoom(secondUser.user_id)).toBe(false);
+  });
+
   test("resetPlayerScores should update player scores", () => {
     const roomId = roomCache.createRoom({
       user: testUser,

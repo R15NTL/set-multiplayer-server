@@ -295,4 +295,9 @@ export class RoomCache {
 
     joinRequest.accepted = true;
   };
+
+  // Method to remove a user's join request.
+  removeUserJoinRequest = (roomId: string, uid: string) => {
+    this.removeFromRoom(uid, roomId);
+  };
 }
