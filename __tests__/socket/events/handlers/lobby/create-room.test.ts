@@ -3,11 +3,16 @@ import { RoomCache } from "../../../../../src/cache/roomCache";
 import { Socket, Server } from "socket.io";
 import { IOContext } from "../../../../../src/types/context";
 import { verifyToken } from "../../../../../src/auth/verifyToken";
-import exp from "constants";
+import { updateGameRoom } from "../../../../../src/socket/emitters/game/emitToGame";
 
 jest.mock("../../../../../src/auth/verifyToken", () => ({
   ...jest.requireActual("../../../../../src/auth/verifyToken"),
   verifyToken: jest.fn(),
+}));
+
+jest.mock("../../../../../src/socket/emitters/game/emitToGame", () => ({
+  ...jest.requireActual("../../../../../src/socket/emitters/game/emitToGame"),
+  updateGameRoom: jest.fn(),
 }));
 
 const mockSocket: Partial<Socket> = {
@@ -16,8 +21,8 @@ const mockSocket: Partial<Socket> = {
 };
 
 const mockServer: Partial<Server> = {
-  to: jest.fn().mockReturnThis(),
   emit: jest.fn(),
+  to: jest.fn().mockReturnThis(),
 };
 
 const mockParams = {
@@ -25,7 +30,7 @@ const mockParams = {
   room_name: "test",
   game_type: "competitive",
   settings: {
-    remove_from_lobby_when_not_waiting_for_players: false,
+    remove_from_lobby_in_game: false,
   },
 } as any;
 
@@ -57,7 +62,7 @@ describe("createRoomHandler", () => {
       room_name: "test",
       game_type: "competitive",
       settings: {
-        remove_from_lobby_when_not_waiting_for_players: false,
+        remove_from_lobby_in_game: false,
       },
     } as any;
 
@@ -70,7 +75,7 @@ describe("createRoomHandler", () => {
       token: "test",
       game_type: "competitive",
       settings: {
-        remove_from_lobby_when_not_waiting_for_players: false,
+        remove_from_lobby_in_game: false,
       },
     } as any;
 
@@ -83,7 +88,7 @@ describe("createRoomHandler", () => {
       token: "test",
       room_name: "test",
       settings: {
-        remove_from_lobby_when_not_waiting_for_players: false,
+        remove_from_lobby_in_game: false,
       },
     } as any;
 
@@ -92,7 +97,7 @@ describe("createRoomHandler", () => {
     );
   });
 
-  it("should throw an error when settings.remove_from_lobby_when_not_waiting_for_players is missing", async () => {
+  it("should throw an error when settings.remove_from_lobby_in_game is missing", async () => {
     const params = {
       token: "test",
       room_name: "test",
@@ -101,7 +106,7 @@ describe("createRoomHandler", () => {
     } as any;
 
     await expect(createRoomHandler(context, params)).rejects.toThrow(
-      "settings.remove_from_lobby_when_not_waiting_for_players is a required field"
+      "settings.remove_from_lobby_in_game is a required field"
     );
   });
 
@@ -111,7 +116,7 @@ describe("createRoomHandler", () => {
       room_name: "test",
       game_type: "test",
       settings: {
-        remove_from_lobby_when_not_waiting_for_players: false,
+        remove_from_lobby_in_game: false,
       },
     } as any;
 
@@ -149,5 +154,11 @@ describe("createRoomHandler", () => {
     expect(room?.room_players.size).toBe(1);
     // Expect user who created the room to be in the room
     expect(room?.room_players.get(mockUser.user_id)).toBeTruthy();
+
+    // Expect the socket to have joined the room
+    expect(socket.join).toHaveBeenCalledWith(roomId);
+
+    // Expect the updateGameRoom emitter to have been called
+    expect(updateGameRoom).toHaveBeenCalledWith(context, roomId);
   });
 });

@@ -22,7 +22,7 @@ type UserMapValue = Socket;
 type SocketMapValue = User;
 
 export interface RoomSettings {
-  remove_from_lobby_when_not_waiting_for_players: boolean;
+  remove_from_lobby_in_game: boolean;
 }
 
 export type Room = {

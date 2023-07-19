@@ -28,7 +28,7 @@ describe("RoomCache", () => {
 
     roomCache = new RoomCache();
     testSocket = mockSocket();
-    testSettings = { remove_from_lobby_when_not_waiting_for_players: true };
+    testSettings = { remove_from_lobby_in_game: true };
   });
 
   test("createRoom should create a room and return room id", () => {

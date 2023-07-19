@@ -3,14 +3,14 @@ import { IOContext } from "../../types/context";
 // Handlers
 import { disconnectHandler } from "./handlers/disconnect";
 import { requestGameDataHandler } from "./handlers/game";
-import { getRooms, createRoomHandler } from "./handlers/lobby";
+import { getRoomsHandler, createRoomHandler } from "./handlers/lobby";
 
 export const events = (context: IOContext) => {
   const { socket } = context;
 
   socket.on("get-rooms", () => {
     try {
-      getRooms(context);
+      getRoomsHandler(context);
     } catch (error) {
       handleSocketEventError(context, error);
     }

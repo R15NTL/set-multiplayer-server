@@ -16,7 +16,7 @@ const schema = yup.object().shape({
   room_name: yup.string().required(),
   game_type: yup.string().oneOf(["competitive", "knockout"]).required(),
   settings: yup.object().shape({
-    remove_from_lobby_when_not_waiting_for_players: yup.boolean().required(),
+    remove_from_lobby_in_game: yup.boolean().required(),
   }),
 });
 
