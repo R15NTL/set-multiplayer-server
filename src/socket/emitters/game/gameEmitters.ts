@@ -12,8 +12,18 @@ export interface ReceiveRoom {
   join_requests: JoinRequestPlayer[];
 }
 
+interface AddedToGameParams {
+  room_id: string;
+}
+
 export const gameEmitters = {
   receiveRoom: (room: ReceiveRoom, cb: SocketEmitter) => {
     cb("receive-room", room);
+  },
+  addedToGame: (data: AddedToGameParams, cb: SocketEmitter) => {
+    cb("added-to-game", data);
+  },
+  addedToJoinRequests: (data: AddedToGameParams, cb: SocketEmitter) => {
+    cb("added-to-join-requests", data);
   },
 };

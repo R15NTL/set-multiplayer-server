@@ -1,0 +1,1 @@
+export const MAX_NUMBER_OF_PLAYERS_IN_ROOM = 6;

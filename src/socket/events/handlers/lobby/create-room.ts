@@ -7,12 +7,14 @@ import { updateLobbyRooms } from "../../../emitters/lobby/emitToLobby";
 interface GetRoomsParams {
   token: string;
   room_name: string;
+  game_type: "competitive" | "knockout";
   settings: RoomSettings;
 }
 
 const schema = yup.object().shape({
   token: yup.string().required(),
   room_name: yup.string().required(),
+  game_type: yup.string().oneOf(["competitive", "knockout"]).required(),
   settings: yup.object().shape({
     remove_from_lobby_when_not_waiting_for_players: yup.boolean().required(),
   }),
@@ -35,13 +37,14 @@ export const createRoomHandler = async (
     );
   }
 
-  const { token, settings, room_name } = params;
+  const { token, settings, room_name, game_type } = params;
 
   const user = verifyToken(token);
 
   if (!user) throw new Error("Invalid token");
 
   const roomId = roomCache.createRoom({
+    gameType: game_type,
     roomName: room_name,
     settings,
     socket,

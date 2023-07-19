@@ -28,6 +28,7 @@ export interface RoomSettings {
 export type Room = {
   room_id: string;
   room_name: string;
+  game_type: "knockout" | "competitive";
   room_players: Map<string, Player>;
   settings: RoomSettings;
   host: User;
@@ -39,6 +40,7 @@ export type Room = {
 // Parameters for creating a room.
 interface CreateRoomParams {
   roomName: string;
+  gameType: Room["game_type"];
   settings: Room["settings"];
   socket: Socket;
   user: User;
@@ -180,11 +182,18 @@ export class RoomCache {
   };
 
   // Method to create a new room.
-  createRoom = ({ user, socket, roomName, settings }: CreateRoomParams) => {
+  createRoom = ({
+    user,
+    socket,
+    roomName,
+    settings,
+    gameType,
+  }: CreateRoomParams) => {
     const room_id = randomUUID();
 
     const room: Room = {
       room_id,
+      game_type: gameType,
       room_name: roomName,
       room_players: new Map(),
       settings,

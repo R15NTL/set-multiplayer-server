@@ -3,7 +3,7 @@ import { updateGameRoom } from "../../emitters/game/emitToGame";
 import { updateLobbyRooms } from "../../emitters/lobby/emitToLobby";
 
 export const disconnectHandler = (context: IOContext) => {
-  const { socket, roomCache, io } = context;
+  const { socket, roomCache } = context;
 
   const user = roomCache.getUserBySocketId(socket.id);
 

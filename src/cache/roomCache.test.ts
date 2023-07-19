@@ -37,6 +37,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
     expect(roomId).toEqual("1234");
   });
@@ -47,6 +48,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room A",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     expect(() =>
@@ -55,6 +57,7 @@ describe("RoomCache", () => {
         socket: mockSocket("socketId2"),
         roomName: "Test Room B",
         settings: testSettings,
+        gameType: "competitive",
       })
     ).toThrowError("You are already in a room.");
 
@@ -67,6 +70,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
     // Get socket from cache by user id.
     const socket = roomCache.getUserToSocket(testUser.user_id);
@@ -84,6 +88,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     roomCache.addToRoom(roomId, secondUser, mockSocket("socketId2"), "player");
@@ -106,6 +111,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     roomCache.addToRoom(
@@ -131,6 +137,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room A",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     // Create a second room.
@@ -139,6 +146,7 @@ describe("RoomCache", () => {
       socket: mockSocket("socketId2"),
       roomName: "Test Room B",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     expect(() =>
@@ -170,6 +178,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     roomCache.addToRoom(
@@ -201,6 +210,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     roomCache.addToRoom(
@@ -244,6 +254,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     const room = roomCache.getRoomById(roomId);
@@ -261,6 +272,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     // Add 3 more users to the room
@@ -308,6 +320,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     // Add second user to join requests
@@ -340,6 +353,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     roomCache.addToJoinRequests({
@@ -364,6 +378,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     expect(() =>
@@ -382,6 +397,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     // Add second user to join requests
@@ -424,6 +440,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
     // Add second user to join requests
     roomCache.addToJoinRequests({
@@ -457,6 +474,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     roomCache.updatePlayerScore(roomId, testUser.user_id, 10);
@@ -471,6 +489,7 @@ describe("RoomCache", () => {
       socket: testSocket,
       roomName: "Test Room",
       settings: testSettings,
+      gameType: "competitive",
     });
 
     roomCache.addToRoom(
