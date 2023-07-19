@@ -7,6 +7,6 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "src/gameLogic/gameLogicModules/calculateSetsOnTable.js"],
+  "include": ["src/**/*.ts", "src/gameLogic/gameLogicModules/calculateSetsOnTable.js", "__tests__/cache/roomCache.test.ts", "__tests__/gameLogic/gameLogic.test.ts", "__tests__/gameLogic/gameLogicModules/calculateSetsOnTable.test.ts", "__tests__/gameLogic/gameLogicModules/checkIfSet.test.ts", "__tests__/gameLogic/gameLogicModules/createSetCards.test.ts", "__tests__/gameLogic/gameLogicModules/switchFoundCardsWithCardsOnLast.test.ts"],
   "exclude": ["node_modules"],
 }

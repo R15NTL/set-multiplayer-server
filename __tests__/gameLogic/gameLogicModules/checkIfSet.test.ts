@@ -1,5 +1,5 @@
-import { Card } from "../types";
-import checkIfSet from "./checkIfSet";
+import { Card } from "../../../src/gameLogic/types";
+import checkIfSet from "../../../src/gameLogic/gameLogicModules/checkIfSet";
 
 describe("checkIfSet", () => {
   it("returns true when all cards share properties", () => {

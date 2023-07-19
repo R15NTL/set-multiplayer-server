@@ -1,5 +1,5 @@
-import { Card } from "../types";
-import calculateSetsOnTable from "./calculateSetsOnTable";
+import { Card } from "../../../src/gameLogic/types";
+import calculateSetsOnTable from "../../../src/gameLogic/gameLogicModules/calculateSetsOnTable";
 
 describe("calculateSetsOnTable", () => {
   it("returns 1 set for a table of 3 duplicate cards", () => {

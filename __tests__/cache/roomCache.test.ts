@@ -1,4 +1,4 @@
-import { RoomCache, User, Room } from "./roomCache";
+import { RoomCache, User, Room } from "../../src/cache/roomCache";
 import { Socket } from "socket.io";
 
 // Mock randomUUID from 'crypto' to return a predictable value.

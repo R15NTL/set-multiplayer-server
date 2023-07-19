@@ -1,6 +1,6 @@
-import gameLogic, { GameSnapshot } from "./gameLogic";
-import createSetCards from "./gameLogicModules/createSetCards";
-import { Card } from "./types";
+import gameLogic, { GameSnapshot } from "../../src/gameLogic/gameLogic";
+import createSetCards from "../../src/gameLogic/gameLogicModules/createSetCards";
+import { Card } from "../../src/gameLogic/types";
 
 describe("gameLogic", () => {
   let currentGame: GameSnapshot;

@@ -1,7 +1,7 @@
 import switchFoundCardsWithCardsOnTheLastRow, {
   WaitingTableCard,
-} from "./switchFoundCardsWithCardsOnLast";
-import { Card } from "../types";
+} from "../../../src/gameLogic/gameLogicModules/switchFoundCardsWithCardsOnLast";
+import { Card } from "../../../src/gameLogic/types";
 
 // Mock data
 const mockCard: Card = {

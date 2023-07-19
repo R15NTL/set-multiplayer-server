@@ -1,4 +1,4 @@
-import createSetCards from "./createSetCards";
+import createSetCards from "../../../src/gameLogic/gameLogicModules/createSetCards";
 
 describe("createSetCards", () => {
   it("creates a deck with 81 unique cards", () => {
