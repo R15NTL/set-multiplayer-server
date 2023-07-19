@@ -26,7 +26,6 @@ export const createRoomHandler = async (
   context: IOContext,
   params: GetRoomsParams
 ) => {
-  // console.log({ context });
   const { roomCache, socket, io } = context;
 
   try {
