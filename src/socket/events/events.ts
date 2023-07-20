@@ -2,12 +2,18 @@ import { handleSocketEventError } from "./errorHandler";
 import { IOContext } from "../../types/context";
 // Handlers
 import { disconnectHandler } from "./handlers/disconnect";
-import { requestGameDataHandler, startGameHandler } from "./handlers/game";
-import { getRoomsHandler, createRoomHandler } from "./handlers/lobby";
+import { requestRoomDataHandler, leaveRoomHandler } from "./handlers/common";
+import {
+  getRoomsHandler,
+  createRoomHandler,
+  startGameHandler,
+  joinRoomHandler,
+} from "./handlers/lobby";
 
 export const events = (context: IOContext) => {
   const { socket } = context;
 
+  // Lobby
   socket.on("get-rooms", () => {
     try {
       getRoomsHandler(context);
@@ -24,9 +30,9 @@ export const events = (context: IOContext) => {
     }
   });
 
-  socket.on("request-game-data", () => {
+  socket.on("join-room", async (params) => {
     try {
-      requestGameDataHandler(context);
+      await joinRoomHandler(context, params);
     } catch (error) {
       handleSocketEventError(context, error);
     }
@@ -34,7 +40,26 @@ export const events = (context: IOContext) => {
 
   socket.on("start-game", async (params) => {
     try {
-      await startGameHandler(context, params);
+      startGameHandler(context, params);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  // Game
+
+  // Common
+  socket.on("leave-room", () => {
+    try {
+      leaveRoomHandler(context);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  socket.on("request-room-data", () => {
+    try {
+      requestRoomDataHandler(context);
     } catch (error) {
       handleSocketEventError(context, error);
     }

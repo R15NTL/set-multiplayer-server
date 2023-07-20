@@ -1,7 +1,7 @@
 import { IOContext } from "../../../../types/context";
 import { updateGameRoom } from "../../../emitters/game/emitToGame";
 
-export const requestGameDataHandler = (context: IOContext) => {
+export const requestRoomDataHandler = (context: IOContext) => {
   const { socket, roomCache } = context;
 
   const userId = roomCache.getUserBySocketId(socket.id);

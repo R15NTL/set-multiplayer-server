@@ -24,6 +24,7 @@ export const joinRoomHandler = async (
 ) => {
   const { socket, roomCache } = context;
 
+  // Validation
   await joinRoomParamsSchema.validate(params);
 
   const room = roomCache.getRoomById(params.roomId);
@@ -41,6 +42,7 @@ export const joinRoomHandler = async (
 
   if (userInRoom) throw new Error("You are already in a room.");
 
+  // Add user to room or join requests
   if (room.game_status === "waiting-for-players") {
     roomCache.addToRoom(room.room_id, user, socket, "player");
     socket.join(room.room_id);

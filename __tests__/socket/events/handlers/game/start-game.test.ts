@@ -1,4 +1,4 @@
-import { startGameHandler } from "../../../../../src/socket/events/handlers/game";
+import { startGameHandler } from "../../../../../src/socket/events/handlers/lobby";
 import { updateGameRoom } from "../../../../../src/socket/emitters/game/emitToGame";
 import { updateLobbyRooms } from "../../../../../src/socket/emitters/lobby/emitToLobby";
 import { RoomCache } from "../../../../../src/cache/roomCache";

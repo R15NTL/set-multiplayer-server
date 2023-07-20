@@ -38,4 +38,6 @@ export const removePlayerFromRoom = (
 
   if (updateGame) updateGameRoom(context, roomId);
   if (updateLobby) updateLobbyRooms(context);
+
+  return true;
 };
