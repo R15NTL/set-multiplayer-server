@@ -236,6 +236,18 @@ export class RoomCache {
     return true;
   };
 
+  // Method to increment the score of a player.
+  incrementPlayerScore = (room: string, uid: string, incrementBy: number) => {
+    const roomData = this.rooms.get(room);
+    if (!roomData) return false;
+
+    const player = roomData.room_players.get(uid);
+    if (!player) return false;
+
+    player.score += incrementBy;
+    return true;
+  };
+
   // Method to reset the score of all players in a room.
   resetPlayerScores = (roomId: string) => {
     const roomData = this.getRoomById(roomId);
@@ -246,6 +258,23 @@ export class RoomCache {
       player.score = 0;
     });
 
+    return true;
+  };
+
+  // Method to update a player's status.
+  updatePlayerStatus = (
+    roomId: string,
+    uid: string,
+    status: Player["status"]
+  ) => {
+    const roomData = this.getRoomById(roomId);
+    if (!roomData) return false;
+
+    const roomPlayers = roomData.room_players;
+    const player = roomPlayers.get(uid);
+    if (!player) return false;
+
+    player.status = status;
     return true;
   };
 

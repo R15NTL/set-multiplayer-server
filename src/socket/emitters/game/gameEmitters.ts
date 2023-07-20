@@ -16,6 +16,10 @@ interface AddedToGameParams {
   room_id: string;
 }
 
+interface EndOfGameParams {
+  room_id: string;
+}
+
 export const gameEmitters = {
   receiveRoom: (room: ReceiveRoom, cb: SocketEmitter) => {
     cb("receive-room", room);
@@ -26,4 +30,6 @@ export const gameEmitters = {
   addedToJoinRequests: (data: AddedToGameParams, cb: SocketEmitter) => {
     cb("added-to-join-requests", data);
   },
+  endOfGame: (data: EndOfGameParams, cb: SocketEmitter) =>
+    cb("end-of-game", data),
 };
