@@ -36,8 +36,17 @@ export const removePlayerFromRoom = (
     (...args) => socket.emit(...args)
   );
 
-  if (updateGame) updateGameRoom(context, roomId);
   if (updateLobby) updateLobbyRooms(context);
+
+  if (!roomCache.getRoomById(roomId)) {
+    commonEmitters.roomNoLongerExists({ room_id: roomId }, (...args) =>
+      socket.emit(...args)
+    );
+
+    return true;
+  }
+
+  if (updateGame) updateGameRoom(context, roomId);
 
   return true;
 };

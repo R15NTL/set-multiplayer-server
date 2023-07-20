@@ -302,7 +302,7 @@ export class RoomCache {
     if (!room) throw new Error("Error accepting join request.");
 
     const joinRequest = room.join_requests.get(uid);
-    if (!joinRequest) return;
+    if (!joinRequest) throw new Error("Join request no longer exists.");
 
     joinRequest.accepted = true;
   };

@@ -9,6 +9,10 @@ import {
   startGameHandler,
   joinRoomHandler,
 } from "./handlers/lobby";
+import {
+  hostValidateJoinRequestHandler,
+  hostRemovePlayerFromRoomHandler,
+} from "./handlers/game/common";
 
 export const events = (context: IOContext) => {
   const { socket } = context;
@@ -38,7 +42,7 @@ export const events = (context: IOContext) => {
     }
   });
 
-  socket.on("start-game", async (params) => {
+  socket.on("start-game", (params) => {
     try {
       startGameHandler(context, params);
     } catch (error) {
@@ -46,7 +50,22 @@ export const events = (context: IOContext) => {
     }
   });
 
-  // Game
+  // Game/Common
+  socket.on("host-validate-join-request", (params) => {
+    try {
+      hostValidateJoinRequestHandler(context, params);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  socket.on("host-remove-player", (params) => {
+    try {
+      hostRemovePlayerFromRoomHandler(context, params);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
 
   // Common
   socket.on("leave-room", () => {

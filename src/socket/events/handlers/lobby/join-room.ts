@@ -45,7 +45,6 @@ export const joinRoomHandler = async (
   // Add user to room or join requests
   if (room.game_status === "waiting-for-players") {
     roomCache.addToRoom(room.room_id, user, socket, "player");
-    socket.join(room.room_id);
 
     updateLobbyRooms(context);
 
@@ -58,6 +57,8 @@ export const joinRoomHandler = async (
       socket.emit(...args)
     );
   }
+
+  socket.join(room.room_id);
 
   updateGameRoom(context, room.room_id);
 };
