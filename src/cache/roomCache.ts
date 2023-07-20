@@ -224,6 +224,12 @@ export class RoomCache {
     if (roomData) roomData.game_state = state;
   };
 
+  // Method to update game type.
+  updateGameType = (room: string, gameType: Room["game_type"]) => {
+    const roomData = this.rooms.get(room);
+    if (roomData) roomData.game_type = gameType;
+  };
+
   // Method to update the score of a player in a room.
   updatePlayerScore = (room: string, uid: string, score: number) => {
     const roomData = this.rooms.get(room);

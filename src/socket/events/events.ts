@@ -1,18 +1,21 @@
 import { handleSocketEventError } from "./errorHandler";
 import { IOContext } from "../../types/context";
 // Handlers
-import { disconnectHandler } from "./handlers/disconnect";
-import { requestRoomDataHandler, leaveRoomHandler } from "./handlers/common";
 import {
   getRoomsHandler,
   createRoomHandler,
   startGameHandler,
+  requestRoomDataHandler,
+  leaveRoomHandler,
   joinRoomHandler,
-} from "./handlers/lobby";
-import {
   hostValidateJoinRequestHandler,
   hostRemovePlayerFromRoomHandler,
-} from "./handlers/game/common";
+  disconnectHandler,
+  playerAcceptJoinRequestHandler,
+  startNewRoundHandler,
+  findSetCompetitiveHandler,
+  findSetKnockoutHandler,
+} from "./handlers";
 
 export const events = (context: IOContext) => {
   const { socket } = context;
@@ -62,6 +65,40 @@ export const events = (context: IOContext) => {
   socket.on("host-remove-player", (params) => {
     try {
       hostRemovePlayerFromRoomHandler(context, params);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  socket.on("player-accept-join-request", () => {
+    try {
+      playerAcceptJoinRequestHandler(context);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  socket.on("start-new-round", (params) => {
+    try {
+      startNewRoundHandler(context, params);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  // Game/Competitive
+  socket.on("find-set-competitive", (params) => {
+    try {
+      findSetCompetitiveHandler(context, params);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  // Game/Knockout
+  socket.on("find-set-knockout", (params) => {
+    try {
+      findSetKnockoutHandler(context, params);
     } catch (error) {
       handleSocketEventError(context, error);
     }
