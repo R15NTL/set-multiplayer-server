@@ -36,6 +36,9 @@ export const startGameHandler = (
   // Remove players from room
   const playersToRemove = params.players_to_remove;
 
+  if (playersToRemove.includes(room.host.user_id))
+    throw new Error("Host cannot be removed from room.");
+
   playersToRemove.forEach((playerId) => {
     removePlayerFromRoom(context, {
       userId: playerId,

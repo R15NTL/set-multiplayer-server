@@ -22,7 +22,7 @@ export const findSetKnockoutHandler = (
 
   // Validation
   findSetKnockoutParamsSchema.validateSync(params);
-  const { user, roomId, room } = validateFindSetEvent(context, "competitive");
+  const { user, roomId, room } = validateFindSetEvent(context, "knockout");
 
   // Verify the status of the game is in-game and the game is in progress.
   if (
