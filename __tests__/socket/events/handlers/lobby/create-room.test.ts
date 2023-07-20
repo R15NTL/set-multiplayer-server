@@ -16,6 +16,7 @@ jest.mock("../../../../../src/socket/emitters/game/emitToGame", () => ({
 }));
 
 const mockSocket: Partial<Socket> = {
+  id: "test",
   join: jest.fn(),
   emit: jest.fn(),
 };

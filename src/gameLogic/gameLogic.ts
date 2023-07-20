@@ -21,7 +21,7 @@ export interface GameSnapshot {
   endOfGame: boolean;
 }
 
-class gameLogic {
+class GameLogic {
   private cardStack: Card[];
   private usedCards: number;
   private setTable: Card[];
@@ -165,4 +165,4 @@ class gameLogic {
   }
 }
 
-export default gameLogic;
+export default GameLogic;

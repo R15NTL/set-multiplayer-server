@@ -2,7 +2,7 @@ import { handleSocketEventError } from "./errorHandler";
 import { IOContext } from "../../types/context";
 // Handlers
 import { disconnectHandler } from "./handlers/disconnect";
-import { requestGameDataHandler } from "./handlers/game";
+import { requestGameDataHandler, startGameHandler } from "./handlers/game";
 import { getRoomsHandler, createRoomHandler } from "./handlers/lobby";
 
 export const events = (context: IOContext) => {
@@ -27,6 +27,14 @@ export const events = (context: IOContext) => {
   socket.on("request-game-data", () => {
     try {
       requestGameDataHandler(context);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  socket.on("start-game", async (params) => {
+    try {
+      await startGameHandler(context, params);
     } catch (error) {
       handleSocketEventError(context, error);
     }
