@@ -3,6 +3,7 @@ import GameLogic from "../../../../gameLogic/gameLogic";
 import * as yup from "yup";
 import { updateGameRoom } from "../../../emitters/game/emitToGame";
 import { updateLobbyRooms } from "../../../emitters/lobby/emitToLobby";
+import { removePlayerFromRoom } from "../../../../features/players/removePlayerFromRoom";
 
 interface StartGameParams {
   players_to_remove: string[];
@@ -36,7 +37,12 @@ export const startGameHandler = (
   const playersToRemove = params.players_to_remove;
 
   playersToRemove.forEach((playerId) => {
-    roomCache.removeFromRoom(playerId, roomId);
+    removePlayerFromRoom(context, {
+      userId: playerId,
+      updateLobby: false,
+      updateGame: false,
+      removedByHost: true,
+    });
   });
 
   // Start game

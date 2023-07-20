@@ -1,8 +1,8 @@
-import { IOContext } from "../../../types/context";
+import { Context } from "../../../types/context";
 import { gameEmitters } from "./gameEmitters";
 import { parseRoom } from "../../../features/parseRooms/parseRoom";
 
-export const updateGameRoom = (context: IOContext, roomId: string) => {
+export const updateGameRoom = (context: Context, roomId: string) => {
   const { io, roomCache } = context;
 
   const room = roomCache.getRoomById(roomId);
