@@ -5,7 +5,7 @@ import { lobbyEmitters } from "../../../emitters/lobby/lobbyEmitters";
 export const getRoomsHandler = (context: IOContext) => {
   const { socket } = context;
 
-  const parsedRooms = parseAllRooms(context);
+  const parsedRooms = parseAllRooms();
 
   lobbyEmitters.receiveRooms(parsedRooms, (...args) => socket.emit(...args));
 };

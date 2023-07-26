@@ -1,7 +1,7 @@
-import { Context } from "../../types/context";
 import { commonEmitters } from "../../socket/emitters/common/commonEmitters";
 import { updateGameRoom } from "../../socket/emitters/game/emitToGame";
 import { updateLobbyRooms } from "../../socket/emitters/lobby/emitToLobby";
+import { roomCache } from "../../instances";
 
 interface RemovePlayerFromRoomSettings {
   userId: string;
@@ -10,17 +10,12 @@ interface RemovePlayerFromRoomSettings {
   removedByHost: boolean;
 }
 
-export const removePlayerFromRoom = (
-  context: Context,
-  {
-    userId,
-    updateLobby,
-    updateGame,
-    removedByHost,
-  }: RemovePlayerFromRoomSettings
-) => {
-  const { roomCache } = context;
-
+export const removePlayerFromRoom = ({
+  userId,
+  updateLobby,
+  updateGame,
+  removedByHost,
+}: RemovePlayerFromRoomSettings) => {
   const roomId = roomCache.getRoomIdByUser(userId);
 
   if (!roomId) return "User is not in a room.";
@@ -36,7 +31,7 @@ export const removePlayerFromRoom = (
     (...args) => socket.emit(...args)
   );
 
-  if (updateLobby) updateLobbyRooms(context);
+  if (updateLobby) updateLobbyRooms();
 
   if (!roomCache.getRoomById(roomId)) {
     commonEmitters.roomNoLongerExists({ room_id: roomId }, (...args) =>
@@ -46,7 +41,7 @@ export const removePlayerFromRoom = (
     return true;
   }
 
-  if (updateGame) updateGameRoom(context, roomId);
+  if (updateGame) updateGameRoom(roomId);
 
   return true;
 };

@@ -1,6 +1,7 @@
 import { IOContext } from "../../../../../types/context";
 import * as yup from "yup";
 import { removePlayerFromRoom } from "../../../../../features/players/removePlayerFromRoom";
+import { roomCache } from "../../../../../instances";
 
 interface HostRemovePlayerFromRoomParams {
   player_id: string;
@@ -14,7 +15,7 @@ export const hostRemovePlayerFromRoomHandler = (
   context: IOContext,
   params: HostRemovePlayerFromRoomParams
 ) => {
-  const { socket, roomCache } = context;
+  const { socket } = context;
 
   // Validation
   hostRemovePlayerFromRoomParamsSchema.validateSync(params);
@@ -30,7 +31,7 @@ export const hostRemovePlayerFromRoomHandler = (
   if (room.host.user_id !== user.user_id)
     throw new Error("Only the host can remove a player.");
 
-  const status = removePlayerFromRoom(context, {
+  const status = removePlayerFromRoom({
     userId: params.player_id,
     updateLobby: true,
     updateGame: true,

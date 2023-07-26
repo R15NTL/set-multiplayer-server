@@ -5,6 +5,7 @@ import { gameEmitters } from "../../../../emitters/game/gameEmitters";
 import { updateGameRoom } from "../../../../emitters/game/emitToGame";
 import { validateFindSetEvent } from "../utils/findSet";
 import { autoStartKnockoutRound } from "../utils/autoStartKnockoutRound";
+import { roomCache, io } from "../../../../../instances";
 
 interface FindSetKnockoutParams {
   card_positions: number[];
@@ -18,8 +19,6 @@ export const findSetKnockoutHandler = (
   context: IOContext,
   params: FindSetKnockoutParams
 ) => {
-  const { roomCache, io } = context;
-
   // Validation
   findSetKnockoutParamsSchema.validateSync(params);
   const { user, roomId, room } = validateFindSetEvent(context, "knockout");
@@ -83,7 +82,7 @@ export const findSetKnockoutHandler = (
 
     if (playersInGame.length > 1) {
       setTimeout(() => {
-        autoStartKnockoutRound(context, roomId);
+        autoStartKnockoutRound(roomId);
       }, 5000);
     }
   }
@@ -92,5 +91,5 @@ export const findSetKnockoutHandler = (
   roomCache.updateGameState(roomId, snapshot);
 
   // Emit the game state to the room.
-  updateGameRoom(context, roomId);
+  updateGameRoom(roomId);
 };

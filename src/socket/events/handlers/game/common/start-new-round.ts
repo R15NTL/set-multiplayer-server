@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { updateGameRoom } from "../../../../emitters/game/emitToGame";
 import { updateLobbyRooms } from "../../../../emitters/lobby/emitToLobby";
 import { Room } from "../../../../../cache/roomCache";
+import { roomCache } from "../../../../../instances";
 
 interface StartNewRoundParams {
   game_type: Room["game_type"];
@@ -17,7 +18,7 @@ export const startNewRoundHandler = (
   context: IOContext,
   params: StartNewRoundParams
 ) => {
-  const { socket, roomCache } = context;
+  const { socket } = context;
 
   // Validation
   startNewRoundParamsSchema.validateSync(params);
@@ -47,6 +48,6 @@ export const startNewRoundHandler = (
     roomCache.updatePlayerStatus(roomId, player.user.user_id, "player");
   });
 
-  updateGameRoom(context, roomId);
-  updateLobbyRooms(context);
+  updateGameRoom(roomId);
+  updateLobbyRooms();
 };

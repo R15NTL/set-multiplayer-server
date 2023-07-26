@@ -18,7 +18,7 @@ import {
 } from "./handlers";
 
 export const events = (context: IOContext) => {
-  const { socket } = context;
+  const socket = context.socket;
 
   // Lobby
   socket.on("get-rooms", () => {
@@ -47,6 +47,7 @@ export const events = (context: IOContext) => {
 
   socket.on("start-game", (params) => {
     try {
+      console.log("start-game");
       startGameHandler(context, params);
     } catch (error) {
       handleSocketEventError(context, error);

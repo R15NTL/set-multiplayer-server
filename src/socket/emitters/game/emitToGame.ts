@@ -1,15 +1,14 @@
-import { Context } from "../../../types/context";
 import { gameEmitters } from "./gameEmitters";
 import { parseRoom } from "../../../features/parseRooms/parseRoom";
+import { io, roomCache } from "../../../instances";
 
-export const updateGameRoom = (context: Context, roomId: string) => {
-  const { io, roomCache } = context;
-
+export const updateGameRoom = (roomId: string) => {
   const room = roomCache.getRoomById(roomId);
 
-  if (!room) throw new Error("Room does not exist");
+  // Todo: handle room not found
+  if (!room) return;
 
-  const parsedRoom = parseRoom(context, roomId);
+  const parsedRoom = parseRoom(roomId);
 
   gameEmitters.receiveRoom(parsedRoom, (...args) =>
     io.to(roomId).emit(...args)

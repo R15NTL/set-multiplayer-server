@@ -1,9 +1,11 @@
 import { IOContext } from "../../../../../types/context";
 import { updateGameRoom } from "../../../../emitters/game/emitToGame";
 import { updateLobbyRooms } from "../../../../emitters/lobby/emitToLobby";
+import { gameEmitters } from "../../../../emitters/game/gameEmitters";
+import { roomCache } from "../../../../../instances";
 
 export const playerAcceptJoinRequestHandler = (context: IOContext) => {
-  const { socket, roomCache } = context;
+  const { socket } = context;
 
   // Validation
   const user = roomCache.getUserBySocketId(socket.id);
@@ -15,8 +17,11 @@ export const playerAcceptJoinRequestHandler = (context: IOContext) => {
 
   // Accept the join request
   const playerStatus = room.game_type === "knockout" ? "audience" : "player";
-  context.roomCache.acceptJoinRequest(roomId, user, socket, playerStatus);
+  roomCache.acceptJoinRequest(roomId, user, socket, playerStatus);
 
-  updateGameRoom(context, roomId);
-  updateLobbyRooms(context);
+  gameEmitters.addedToGame({ room_id: roomId }, (...args) =>
+    socket.emit(...args)
+  );
+  updateGameRoom(roomId);
+  updateLobbyRooms();
 };

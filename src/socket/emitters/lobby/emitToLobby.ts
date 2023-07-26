@@ -1,11 +1,9 @@
-import { Context } from "../../../types/context";
 import { lobbyEmitters } from "./lobbyEmitters";
 import { parseAllRooms } from "../../../features/parseRooms/parseAllRooms";
+import { io, roomCache } from "../../../instances";
 
-export const updateLobbyRooms = (context: Context) => {
-  const { io } = context;
-
-  const parsedRooms = parseAllRooms(context);
+export const updateLobbyRooms = () => {
+  const parsedRooms = parseAllRooms();
 
   lobbyEmitters.receiveRooms(parsedRooms, (...args) =>
     io.to("lobby").emit(...args)

@@ -8,6 +8,8 @@ import { gameEmitters } from "../../../emitters/game/gameEmitters";
 import { MAX_NUMBER_OF_PLAYERS_IN_ROOM } from "../../../../config/constants";
 // Types
 import { IOContext } from "../../../../types/context";
+// Instances
+import { roomCache } from "../../../../instances";
 
 interface JoinRoomParams {
   token: string;
@@ -22,7 +24,7 @@ export const joinRoomHandler = async (
   context: IOContext,
   params: JoinRoomParams
 ) => {
-  const { socket, roomCache } = context;
+  const { socket } = context;
 
   // Validation
   await joinRoomParamsSchema.validate(params);
@@ -46,7 +48,7 @@ export const joinRoomHandler = async (
   if (room.game_status === "waiting-for-players") {
     roomCache.addToRoom(room.room_id, user, socket, "player");
 
-    updateLobbyRooms(context);
+    updateLobbyRooms();
 
     gameEmitters.addedToGame({ room_id: room.room_id }, (...args) =>
       socket.emit(...args)
@@ -60,5 +62,5 @@ export const joinRoomHandler = async (
 
   socket.join(room.room_id);
 
-  updateGameRoom(context, room.room_id);
+  updateGameRoom(room.room_id);
 };

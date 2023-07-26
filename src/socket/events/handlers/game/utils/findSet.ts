@@ -1,11 +1,12 @@
 import { Room } from "../../../../../cache/roomCache";
 import { IOContext } from "../../../../../types/context";
+import { roomCache } from "../../../../../instances";
 
 export const validateFindSetEvent = (
   context: IOContext,
   gameType: Room["game_type"]
 ) => {
-  const { socket, roomCache } = context;
+  const { socket } = context;
 
   const user = roomCache.getUserBySocketId(socket.id);
   if (!user) throw new Error("User is not in a room.");

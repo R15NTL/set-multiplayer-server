@@ -1,9 +1,10 @@
 import { IOContext } from "../../../types/context";
 import { updateGameRoom } from "../../emitters/game/emitToGame";
 import { updateLobbyRooms } from "../../emitters/lobby/emitToLobby";
+import { roomCache } from "../../../instances";
 
 export const disconnectHandler = (context: IOContext) => {
-  const { socket, roomCache } = context;
+  const { socket } = context;
 
   const user = roomCache.getUserBySocketId(socket.id);
 
@@ -16,6 +17,9 @@ export const disconnectHandler = (context: IOContext) => {
   socket.leave(roomId);
   roomCache.removeFromRoom(user.user_id, roomId);
 
-  updateGameRoom(context, roomId);
-  updateLobbyRooms(context);
+  console.log("disconnecting", user.user_id, roomId);
+
+  updateLobbyRooms();
+
+  updateGameRoom(roomId);
 };

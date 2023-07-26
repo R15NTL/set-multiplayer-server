@@ -1,6 +1,7 @@
 import { IOContext } from "../../../../../types/context";
 import * as yup from "yup";
 import { updateGameRoom } from "../../../../emitters/game/emitToGame";
+import { roomCache } from "../../../../../instances";
 
 interface HostValidateJoinRequestParams {
   player_id: string;
@@ -14,7 +15,7 @@ export const hostValidateJoinRequestHandler = (
   context: IOContext,
   params: HostValidateJoinRequestParams
 ) => {
-  const { socket, roomCache } = context;
+  const { socket } = context;
 
   // Validation
   hostValidateJoinRequestParamsSchema.validateSync(params);
@@ -30,7 +31,7 @@ export const hostValidateJoinRequestHandler = (
   if (room.host.user_id !== user.user_id)
     throw new Error("Only the host can validate a join request.");
 
-  context.roomCache.setUserJoinRequestToAccepted(roomId, params.player_id);
+  roomCache.setUserJoinRequestToAccepted(roomId, params.player_id);
 
-  updateGameRoom(context, roomId);
+  updateGameRoom(roomId);
 };

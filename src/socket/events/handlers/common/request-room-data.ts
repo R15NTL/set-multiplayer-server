@@ -1,8 +1,9 @@
 import { IOContext } from "../../../../types/context";
 import { updateGameRoom } from "../../../emitters/game/emitToGame";
+import { roomCache } from "../../../../instances";
 
 export const requestRoomDataHandler = (context: IOContext) => {
-  const { socket, roomCache } = context;
+  const { socket } = context;
 
   const userId = roomCache.getUserBySocketId(socket.id);
   if (!userId) throw new Error("User is not in a room.");
@@ -11,5 +12,5 @@ export const requestRoomDataHandler = (context: IOContext) => {
 
   if (!roomId) throw new Error("Room no longer exists.");
 
-  updateGameRoom(context, roomId);
+  updateGameRoom(roomId);
 };

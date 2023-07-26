@@ -3,6 +3,8 @@ import { verifyToken } from "../../../../auth/verifyToken";
 import * as yup from "yup";
 import { IOContext } from "../../../../types/context";
 import { updateLobbyRooms } from "../../../emitters/lobby/emitToLobby";
+import { gameEmitters } from "../../../emitters/game/gameEmitters";
+import { io, roomCache } from "../../../../instances";
 
 interface GetRoomsParams {
   token: string;
@@ -26,7 +28,7 @@ export const createRoomHandler = async (
   context: IOContext,
   params: GetRoomsParams
 ) => {
-  const { roomCache, socket, io } = context;
+  const { socket } = context;
 
   try {
     await schema.validate(params);
@@ -53,6 +55,9 @@ export const createRoomHandler = async (
   socket.join(roomId);
   io.to(roomId).emit("room-created", { roomId });
 
-  updateLobbyRooms(context);
-  updateGameRoom(context, roomId);
+  gameEmitters.addedToGame({ room_id: roomId }, (...args) =>
+    socket.emit(...args)
+  );
+  updateLobbyRooms();
+  updateGameRoom(roomId);
 };

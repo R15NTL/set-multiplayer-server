@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { updateGameRoom } from "../../../emitters/game/emitToGame";
 import { updateLobbyRooms } from "../../../emitters/lobby/emitToLobby";
 import { removePlayerFromRoom } from "../../../../features/players/removePlayerFromRoom";
+import { roomCache } from "../../../../instances";
 
 interface StartGameParams {
   players_to_remove: string[];
@@ -17,7 +18,7 @@ export const startGameHandler = (
   context: IOContext,
   params: StartGameParams
 ) => {
-  const { socket, roomCache } = context;
+  const { socket } = context;
 
   // Validation
   startGameParamsSchema.validateSync(params);
@@ -40,7 +41,7 @@ export const startGameHandler = (
     throw new Error("Host cannot be removed from room.");
 
   playersToRemove.forEach((playerId) => {
-    removePlayerFromRoom(context, {
+    removePlayerFromRoom({
       userId: playerId,
       updateLobby: false,
       updateGame: false,
@@ -57,6 +58,6 @@ export const startGameHandler = (
   roomCache.updateGameStatus(roomId, "in-game");
   roomCache.updateGameState(roomId, snapshot);
 
-  updateGameRoom(context, roomId);
-  updateLobbyRooms(context);
+  updateGameRoom(roomId);
+  updateLobbyRooms();
 };

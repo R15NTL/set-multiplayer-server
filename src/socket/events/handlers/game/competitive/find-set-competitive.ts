@@ -4,6 +4,7 @@ import GameLogic from "../../../../../gameLogic/gameLogic";
 import { gameEmitters } from "../../../../emitters/game/gameEmitters";
 import { updateGameRoom } from "../../../../emitters/game/emitToGame";
 import { validateFindSetEvent } from "../utils/findSet";
+import { roomCache, io } from "../../../../../instances";
 
 interface FindSetCompetitiveParams {
   card_positions: number[];
@@ -17,8 +18,6 @@ export const findSetCompetitiveHandler = (
   context: IOContext,
   params: FindSetCompetitiveParams
 ) => {
-  const { roomCache, io } = context;
-
   // Validation
   findSetCompetitiveParamsSchema.validateSync(params);
 
@@ -58,5 +57,5 @@ export const findSetCompetitiveHandler = (
   roomCache.updateGameState(roomId, snapshot);
 
   // Emit the game state to the room.
-  updateGameRoom(context, roomId);
+  updateGameRoom(roomId);
 };
