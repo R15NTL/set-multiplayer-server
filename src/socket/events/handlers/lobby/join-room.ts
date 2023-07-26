@@ -18,6 +18,7 @@ interface JoinRoomParams {
 
 const joinRoomParamsSchema = yup.object().shape({
   token: yup.string().required(),
+  roomId: yup.string().required(),
 });
 
 export const joinRoomHandler = async (
@@ -26,11 +27,16 @@ export const joinRoomHandler = async (
 ) => {
   const { socket } = context;
 
+  console.log("join-room", params);
   // Validation
   await joinRoomParamsSchema.validate(params);
 
   const room = roomCache.getRoomById(params.roomId);
 
+  if (!room) {
+    console.log("room not found", params.roomId);
+    console.log(Array.from(roomCache.getAllRooms().values()));
+  }
   if (!room) throw new Error("Room no longer exists.");
 
   if (room.room_players.size >= MAX_NUMBER_OF_PLAYERS_IN_ROOM)

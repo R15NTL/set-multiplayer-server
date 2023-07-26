@@ -152,8 +152,8 @@ class GameLogic {
 
     for (let i = 0; i < 12; i++) {
       output[i] = this.cardStack[this.usedCards];
+      this.usedCards++;
     }
-    this.usedCards = 12;
     this.setTable = output;
 
     while (this.calculateSetsOnTable() === 0) {
