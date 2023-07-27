@@ -40,9 +40,9 @@ export const findSetCompetitiveHandler = (
     cardIdC: params.card_positions[2],
   });
 
-  if (isSet) {
-    roomCache.incrementPlayerScore(roomId, user.user_id, 3);
-  }
+  if (!isSet) return;
+
+  roomCache.incrementPlayerScore(roomId, user.user_id, 3);
 
   const snapshot = gameLogic.saveGame();
 
