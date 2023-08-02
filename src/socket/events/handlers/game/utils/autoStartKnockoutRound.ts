@@ -12,6 +12,7 @@ export const autoStartKnockoutRound = (roomId: string) => {
     gameLogic.startGame();
 
     roomCache.updateGameState(roomId, gameLogic.saveGame());
+    roomCache.resetPlayerScores(roomId);
 
     updateGameRoom(roomId);
   } catch (e) {}

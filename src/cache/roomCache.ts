@@ -9,7 +9,7 @@ export type User = {
 
 export type Player = {
   score: number;
-  status: "player" | "audience";
+  status: "player" | "audience" | "knocked-out";
   user: User;
 };
 
@@ -170,6 +170,10 @@ export class RoomCache {
 
     // Delete room if empty
     if (roomPlayers?.size === 0) {
+      // Remove all join request users from cache
+      roomJoinRequests?.forEach((_, uid) => {
+        this.removeUserFromCache(uid);
+      });
       // Delete the room
       this.rooms.delete(room);
       return null;

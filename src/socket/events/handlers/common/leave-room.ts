@@ -1,6 +1,7 @@
 import { IOContext } from "../../../../types/context";
 import { roomCache } from "../../../../instances";
 import { removePlayerFromRoom } from "../../../../features/players/removePlayerFromRoom";
+import { commonEmitters } from "../../../emitters/common/commonEmitters";
 
 export const leaveRoomHandler = (context: IOContext) => {
   const { socket } = context;
@@ -18,4 +19,8 @@ export const leaveRoomHandler = (context: IOContext) => {
   });
 
   if (status !== true) throw new Error(status);
+
+  commonEmitters.removedFromRoom({ removed_by_host: false }, (...args) =>
+    socket.emit(...args)
+  );
 };

@@ -59,14 +59,13 @@ export const joinRoomHandler = async (
     gameEmitters.addedToGame({ room_id: room.room_id }, (...args) =>
       socket.emit(...args)
     );
+    socket.join(room.room_id);
   } else {
     roomCache.addToJoinRequests({ roomId: room.room_id, user, socket });
     gameEmitters.addedToJoinRequests({ room_id: room.room_id }, (...args) =>
       socket.emit(...args)
     );
   }
-
-  socket.join(room.room_id);
 
   updateGameRoom(room.room_id);
 };

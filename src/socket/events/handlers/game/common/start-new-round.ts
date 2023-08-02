@@ -48,6 +48,8 @@ export const startNewRoundHandler = (
     roomCache.updatePlayerStatus(roomId, player.user.user_id, "player");
   });
 
+  roomCache.resetPlayerScores(roomId);
+
   updateGameRoom(roomId);
   updateLobbyRooms();
 };

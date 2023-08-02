@@ -57,12 +57,12 @@ export const findSetKnockoutHandler = (
 
     const lowestScore = Math.min(...playerArray.map((player) => player.score));
 
-    const playersWithLowestScore = playerArray.filter(
-      (player) => player.score === lowestScore
-    );
-
     const playersThatAreNotOut = playerArray.filter(
       (player) => player.status === "player"
+    );
+
+    const playersWithLowestScore = playersThatAreNotOut.filter(
+      (player) => player.score === lowestScore
     );
 
     if (playersWithLowestScore.length === playersThatAreNotOut.length) {
@@ -71,7 +71,11 @@ export const findSetKnockoutHandler = (
       // Do nothing.
     } else {
       playersWithLowestScore.forEach((player) => {
-        roomCache.updatePlayerStatus(roomId, player.user.user_id, "audience");
+        roomCache.updatePlayerStatus(
+          roomId,
+          player.user.user_id,
+          "knocked-out"
+        );
       });
     }
 

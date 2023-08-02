@@ -22,7 +22,7 @@ export const validateFindSetEvent = (
   // Verify user a user playing the game.
   const player = room.room_players.get(user.user_id);
   if (!player || player.status !== "player")
-    throw new Error("User is not playing the game.");
+    throw new Error("You are not a player.");
 
   return { user, roomId, room, player };
 };

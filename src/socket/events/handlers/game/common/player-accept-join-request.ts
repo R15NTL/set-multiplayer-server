@@ -19,6 +19,7 @@ export const playerAcceptJoinRequestHandler = (context: IOContext) => {
   const playerStatus = room.game_type === "knockout" ? "audience" : "player";
   roomCache.acceptJoinRequest(roomId, user, socket, playerStatus);
 
+  socket.join(roomId);
   gameEmitters.addedToGame({ room_id: roomId }, (...args) =>
     socket.emit(...args)
   );

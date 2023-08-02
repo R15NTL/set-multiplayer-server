@@ -4,6 +4,7 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+import { instrument } from "@socket.io/admin-ui";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { RoomCache } from "./cache/roomCache";
@@ -32,5 +33,20 @@ httpServer.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-export const io = new Server(httpServer);
+const ioCorsOrigins = [...corsOrigins, "https://admin.socket.io"];
+
+const ioCorsOptions = {
+  origin: ioCorsOrigins,
+  methods: ["GET", "POST"],
+  credentials: true,
+};
+
+export const io = new Server(httpServer, {
+  cors: ioCorsOptions,
+});
 export const roomCache = new RoomCache();
+
+instrument(io, {
+  auth: false,
+  mode: "development",
+});

@@ -2,6 +2,7 @@ import { IOContext } from "../../../../../types/context";
 import * as yup from "yup";
 import { updateGameRoom } from "../../../../emitters/game/emitToGame";
 import { roomCache } from "../../../../../instances";
+import { commonEmitters } from "../../../../emitters/common/commonEmitters";
 
 interface HostValidateJoinRequestParams {
   player_id: string;
@@ -34,4 +35,11 @@ export const hostValidateJoinRequestHandler = (
   roomCache.setUserJoinRequestToAccepted(roomId, params.player_id);
 
   updateGameRoom(roomId);
+
+  try {
+    const userSocket = roomCache.getUserToSocket(params.player_id);
+    if (userSocket) {
+      commonEmitters.joinRequestAccepted((...args) => userSocket.emit(...args));
+    }
+  } catch (err) {}
 };

@@ -15,4 +15,7 @@ export const commonEmitters = {
   roomNoLongerExists: (data: RoomNoLongerExistsData, cb: SocketEmitter) => {
     cb("room-no-longer-exists", data);
   },
+  joinRequestAccepted: (cb: SocketEmitter) => {
+    cb("join-request-accepted");
+  },
 };
