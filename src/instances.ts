@@ -46,7 +46,7 @@ export const io = new Server(httpServer, {
 });
 export const roomCache = new RoomCache();
 
-instrument(io, {
-  auth: false,
-  mode: "development",
-});
+// instrument(io, {
+//   auth: false,
+//   mode: "development",
+// });
