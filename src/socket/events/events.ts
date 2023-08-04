@@ -15,6 +15,8 @@ import {
   startNewRoundHandler,
   findSetCompetitiveHandler,
   findSetKnockoutHandler,
+  sendChatMessageHandler,
+  checkIfInRoomHandler,
 } from "./handlers";
 
 export const events = (context: IOContext) => {
@@ -55,6 +57,7 @@ export const events = (context: IOContext) => {
   });
 
   // Game/Common
+
   socket.on("host-validate-join-request", (params) => {
     try {
       hostValidateJoinRequestHandler(context, params);
@@ -82,6 +85,14 @@ export const events = (context: IOContext) => {
   socket.on("start-new-round", (params) => {
     try {
       startNewRoundHandler(context, params);
+    } catch (error) {
+      handleSocketEventError(context, error);
+    }
+  });
+
+  socket.on("send-chat-message", (params) => {
+    try {
+      sendChatMessageHandler(context, params);
     } catch (error) {
       handleSocketEventError(context, error);
     }
@@ -119,6 +130,14 @@ export const events = (context: IOContext) => {
       requestRoomDataHandler(context);
     } catch (error) {
       handleSocketEventError(context, error);
+    }
+  });
+
+  socket.on("check-if-in-room", () => {
+    try {
+      checkIfInRoomHandler(context);
+    } catch (error) {
+      // Fail silently
     }
   });
 
