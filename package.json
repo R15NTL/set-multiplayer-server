@@ -6,9 +6,10 @@
   "author": "R15NTL <120052967+R15NTL@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon",
+    "dev": "nodemon",
     "build": "tsc",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "start": "nodemon ./dist/index.js"
   },
   "engines": {
     "node": "18.x"
