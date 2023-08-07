@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy Node.js app to Azure Web App - set-multiplayer-server
 
 on:
@@ -28,10 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: |
-            dist
-            node_modules
-            package.json
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,6 +52,5 @@ jobs:
         with:
           app-name: 'set-multiplayer-server'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_682A4645BE264179A0DBC170B294E8DB }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1497F8BE9C364C029C4F63F0BE9F1D25 }}
           package: .
-
