@@ -180,6 +180,18 @@ export class RoomCache {
     } else if (roomPlayers && currentRoom?.host.user_id === uid) {
       // If host leaves, assign new host
       currentRoom.host = Array.from(roomPlayers.values())[0].user;
+
+      // If no players have a status of "player", set all players to playing
+      let hasPlayer = false;
+      roomPlayers.forEach((player) => {
+        if (player.status === "player") hasPlayer = true;
+      });
+
+      if (!hasPlayer) {
+        roomPlayers.forEach((player) => {
+          this.updatePlayerStatus(room, player.user.user_id, "player");
+        });
+      }
     }
 
     return currentRoom ?? null;
