@@ -1,6 +1,6 @@
 import { lobbyEmitters } from "./lobbyEmitters";
 import { parseAllRooms } from "../../../features/parseRooms/parseAllRooms";
-import { io, roomCache } from "../../../instances";
+import { io } from "../../../instances";
 
 export const updateLobbyRooms = () => {
   const parsedRooms = parseAllRooms();
