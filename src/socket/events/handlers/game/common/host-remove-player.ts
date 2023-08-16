@@ -31,6 +31,17 @@ export const hostRemovePlayerFromRoomHandler = (
   if (room.host.user_id !== user.user_id)
     throw new Error("Only the host can remove a player.");
 
+  const player = room.room_players.get(params.player_id);
+
+  if (!player) throw new Error("Player is not in the room.");
+
+  // Remove player from room
+  const playerSocket = roomCache.getUserToSocket(params.player_id);
+
+  if (!playerSocket) throw new Error("Player is not connected.");
+
+  playerSocket.leave(roomId);
+
   const status = removePlayerFromRoom({
     userId: params.player_id,
     updateLobby: true,
